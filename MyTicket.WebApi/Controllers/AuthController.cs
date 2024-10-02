@@ -5,7 +5,7 @@ using MyTicket.Domain.Entities;
 using MyTicket.WebApi.Models.Request.Auth;
 using MyTicket.WebApi.Models.Response.Auth;
 using MyTicket.WebApi.Services;
-using Project.Application.Businesses.Auth.Commands;
+using MyTicket.Application.Businesses.Auth.Commands;
 
 namespace MyTicket.WebApi.Controllers;
 

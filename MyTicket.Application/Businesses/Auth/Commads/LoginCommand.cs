@@ -4,9 +4,9 @@ using MyTicket.Application.Exceptions;
 using MyTicket.Application.Extensions;
 using MyTicket.Application.Interfaces;
 using MyTicket.Domain.Entities;
-using Project.Application.Businesses.Auth.Models;
+using MyTicket.Application.Businesses.Auth.Models;
 
-namespace Project.Application.Businesses.Auth.Commands
+namespace MyTicket.Application.Businesses.Auth.Commands
 {
     public class LoginCommand: IRequest<LoginResponse>
     {

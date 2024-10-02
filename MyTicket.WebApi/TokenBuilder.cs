@@ -2,7 +2,7 @@
 using MyTicket.Application.Constant;
 using MyTicket.WebApi.Models.Response.Auth;
 using MyTicket.WebApi.Services;
-using Project.Application.Businesses.Auth.Models;
+using MyTicket.Application.Businesses.Auth.Models;
 
 namespace MyTicket.WebApi;
 

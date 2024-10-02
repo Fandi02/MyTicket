@@ -1,4 +1,4 @@
-namespace Project.Application.Businesses.Auth.Models;
+namespace MyTicket.Application.Businesses.Auth.Models;
 
 public class LoginResponse
 {
