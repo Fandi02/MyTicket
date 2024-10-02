@@ -6,7 +6,7 @@ using MyTicket.Application.Extensions;
 using MyTicket.Application.Interfaces;
 using MyTicket.Domain.Entities;
 
-namespace Project.Application.Businesses.Auth.Commands
+namespace MyTicket.Application.Businesses.Auth.Commands
 {
     public class RegisterCommand: IRequest<string>
     {
