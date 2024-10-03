@@ -1,3 +1,5 @@
+using MyTicket.Domain.Entities;
+
 namespace MyTicket.Application.Interfaces;
 
 public interface IContext
@@ -8,5 +10,5 @@ public interface IContext
     public string UserName { get; }
     public string FullName { get; }
     public string Email { get; }
-    public string Roles { get; }
+    public UserRoleEnum Roles { get; }
 }

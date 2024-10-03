@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using MyTicket.Application.Infrastructure;
 using MyTicket.Application.Interfaces;
 using MyTicket.Application.Services;
@@ -12,16 +14,8 @@ builder.Services.AddDbContext<MyTicketDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("ServerConnection"))
 );
 
-builder.Services.AddSingleton<ExceptionHandlerMiddlewareOptions>();
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddTransient<IContext, ContextService>();
-builder.Services.AddTransient<IClock, ClockSevice>();
-builder.Services.AddTransient<ClockOptions>();
-builder.Services.AddTransient<ApplicationJwtManager>();
-builder.Services.AddScoped<IMyTicketDbContext, MyTicketDbContext>();
 
 // Add services to the container.
 
@@ -32,11 +26,33 @@ builder.Services.AddControllers(options =>
     // add slugify dash in route controller (FooBarController --> foo-bar)
     options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
 });
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices();
+
+builder.Services.AddTransient<ApplicationJwtManager>();
+builder.Services.AddScoped<IMyTicketDbContext, MyTicketDbContext>();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddTransient<ExceptionHandlerMiddlewareOptions>();
+
+builder.Services.AddAuthentication(o =>
+{
+    o.DefaultScheme = CustomJwtAuthenticationOptions.DefaultSchemeName;
+    o.DefaultAuthenticateScheme = CustomJwtAuthenticationOptions.DefaultSchemeName;
+})
+.AddScheme<CustomJwtAuthenticationOptions, CustomJwtAuthenticationHandler>(CustomJwtAuthenticationOptions.DefaultSchemeName, opts => { });
+
+builder.Services.AddAuthorization(opts =>
+{
+    opts.DefaultPolicy = new AuthorizationPolicyBuilder()
+    .AddAuthenticationSchemes(CustomJwtAuthenticationOptions.DefaultSchemeName)
+    .RequireAuthenticatedUser()
+    .Build();
+});
+
+builder.Services.AddSwaggerVersioning();
 
 var app = builder.Build();
 
@@ -50,6 +66,10 @@ if (app.Environment.IsDevelopment())
 app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

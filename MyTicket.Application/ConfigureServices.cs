@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using FluentValidation;
 using MediatR;
+using MyTicket.Application.Infrastructure;
+using MyTicket.Application.Interfaces;
 using MyTicket.Application.JwtBearer;
 using MyTicket.Application.Models;
 using MyTicket.Application.Services;
@@ -18,6 +20,9 @@ public static class ConfigureServices
         services.AddTransient<JwtConfig>();
         services.AddTransient<ApplicationJwtManagerService>();
         services.AddTransient<BaseAuthenticatedUser>();
+        services.AddTransient<IContext, ContextService>();
+        services.AddTransient<IClock, ClockSevice>();
+        services.AddTransient<ClockOptions>();
 
         return services;
     }

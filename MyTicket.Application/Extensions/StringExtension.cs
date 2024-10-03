@@ -78,5 +78,10 @@ namespace MyTicket.Application.Extensions
             return new string(System.Linq.Enumerable.Repeat(chars, length)
             .Select(s => s[new Random().Next(s.Length)]).ToArray());
         }
+
+        public static bool NotNullOrEmpty(this string s)
+        {
+            return !string.IsNullOrWhiteSpace(s);
+        }
     }
 }

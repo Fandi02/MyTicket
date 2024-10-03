@@ -6,9 +6,11 @@ using MyTicket.WebApi.Models.Request.Auth;
 using MyTicket.WebApi.Models.Response.Auth;
 using MyTicket.WebApi.Services;
 using MyTicket.Application.Businesses.Auth.Commands;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyTicket.WebApi.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route(template: "api/v1/auth")]
 public class AuthController : BaseApiController
@@ -19,8 +21,8 @@ public class AuthController : BaseApiController
         _configuration = configuration;
     }
 
-    [ProducesResponseType(type: typeof(AuthenticationResponse), statusCode: StatusCodes.Status200OK)]
     [HttpPost("login")]
+    [ProducesResponseType(type: typeof(AuthenticationResponse), statusCode: StatusCodes.Status200OK)]
     public async Task<ActionResult<AuthenticationResponse>> Login([FromBody] AuthenticationRequest request)
     {
         if (request is null)
@@ -47,8 +49,8 @@ public class AuthController : BaseApiController
         return TokenBuilder.Build(jwtManager, result);
     }
 
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPost("register")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Register([FromBody] RegistrationRequest request)
     {
         if (request is null)

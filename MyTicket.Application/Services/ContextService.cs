@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using MyTicket.Application.Interfaces;
+using MyTicket.Domain.Entities;
 using System.Security.Claims;
 
 namespace MyTicket.Application.Services
@@ -18,6 +19,6 @@ namespace MyTicket.Application.Services
         public string UserName { get; }
         public string FullName { get; }
         public string Email { get; }
-        public string Roles { get; }
+        public UserRoleEnum Roles { get; }
     }
 }
