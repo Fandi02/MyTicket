@@ -1,6 +1,6 @@
-namespace MyTicket.WebApi.Models.Request.UserProfile;
+namespace MyTicket.WebApi.Endpoints.UserProfile.Models.Request;
 
-public class UpdateProfileRequest
+public class UpdateProfileModelRequest
 {
     public string PhoneNumber { get; set; }
     public string FullName { get; set; }

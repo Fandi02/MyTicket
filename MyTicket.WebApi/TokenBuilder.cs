@@ -1,14 +1,14 @@
 ﻿using System.Security.Claims;
 using MyTicket.Application.Constant;
-using MyTicket.WebApi.Models.Response.Auth;
 using MyTicket.WebApi.Services;
 using MyTicket.Application.Businesses.Auth.Models;
+using MyTicket.WebApi.Endpoints.Auth.Models.Response;
 
 namespace MyTicket.WebApi;
 
 public static class TokenBuilder
 {
-    public static AuthenticationResponse Build(ApplicationJwtManager applicationJwtManager, LoginResponse user)
+    public static LoginModelResponse Build(ApplicationJwtManager applicationJwtManager, LoginResponse user)
     {
         if (applicationJwtManager is null)
         {
@@ -27,6 +27,6 @@ public static class TokenBuilder
         claims.Add(new Claim(ApplicationClaimConstant.FullName, user.FullName, ClaimValueTypes.String));
         claims.Add(new Claim(ApplicationClaimConstant.Role, user.Role, ClaimValueTypes.String));
 
-        return new AuthenticationResponse(applicationJwtManager.GenerateJwtToken(claims));
+        return new LoginModelResponse(applicationJwtManager.GenerateJwtToken(claims));
     }
 }

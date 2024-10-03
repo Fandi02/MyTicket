@@ -1,8 +1,8 @@
 using MyTicket.Domain.Entities;
 
-namespace MyTicket.WebApi.Models.Request.Auth;
+namespace MyTicket.WebApi.Endpoints.Auth.Models.Request;
 
-public class RegistrationRequest
+public class RegisterModelRequest
 {
     public string Email { get; set; }
     public string PhoneNumber { get; set; }

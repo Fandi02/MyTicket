@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using MyTicket.Application.Infrastructure;
+using MyTicket.Application.Infrastructure.SystemTextJson;
 using MyTicket.Application.Interfaces;
-using MyTicket.Application.Services;
 using MyTicket.Persistence;
+using MyTicket.WebApi.Common;
+using MyTicket.WebApi.ServiceMessageBroker;
 using MyTicket.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +34,7 @@ builder.Services.AddApplicationServices();
 
 builder.Services.AddTransient<ApplicationJwtManager>();
 builder.Services.AddScoped<IMyTicketDbContext, MyTicketDbContext>();
+builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -52,7 +56,22 @@ builder.Services.AddAuthorization(opts =>
     .Build();
 });
 
-builder.Services.AddSwaggerVersioning();
+builder.Services.AddControllers(options =>
+    {
+        options.Conventions.Add(
+            new CustomRouteToken(
+                "namespace",
+                c => c.ControllerType.Namespace?.Split('.').Last()
+            ));
+        options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+    })
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new DateOnlyConverter());
+        options.JsonSerializerOptions.Converters.Add(new TimeOnlyConverter());
+    });
+
+builder.Services.AddSwaggerGen2();
 
 var app = builder.Build();
 

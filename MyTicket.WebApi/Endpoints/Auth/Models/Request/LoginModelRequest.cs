@@ -1,6 +1,6 @@
-namespace MyTicket.WebApi.Models.Request.Auth;
+namespace MyTicket.WebApi.Endpoints.Auth.Models.Request;
 
-public class AuthenticationRequest
+public class LoginModelRequest
 {
     public string Email { get; set; }
     public string Password { get; set; }

@@ -1,8 +1,8 @@
 using MyTicket.Domain.Entities;
 
-namespace MyTicket.WebApi.Models.Response.UserProfile;
+namespace MyTicket.WebApi.Endpoints.UserProfile.Models.Response;
 
-public class UserProfileResponse
+public class GetUserProfileResponse
 {
     public Guid UserId { get; set; }   
     public string Email { get; set; }

@@ -5,6 +5,9 @@ using MyTicket.Application.Extensions;
 using MyTicket.Application.Interfaces;
 using MyTicket.Domain.Entities;
 using MyTicket.Application.Businesses.Auth.Models;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
 
 namespace MyTicket.Application.Businesses.Auth.Commands
 {
@@ -27,6 +30,30 @@ namespace MyTicket.Application.Businesses.Auth.Commands
 
         public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
+            var factory = new ConnectionFactory
+            {
+                HostName = "localhost",
+                UserName = "MyUser",
+                Password = "MyPassword",
+                VirtualHost = "/"
+            };
+
+            var conn = factory.CreateConnection();
+            using var channel = conn.CreateModel();
+
+            channel.QueueDeclare("AuthQueue", durable: false, exclusive: false);
+
+            var consumer = new EventingBasicConsumer(channel);
+
+            consumer.Received += (model, eventArgs) =>
+            {
+                var body = eventArgs.Body.ToArray();
+
+                var message = Encoding.UTF8.GetString(body);
+
+                Console.WriteLine($"A message has been received - {message}");
+            };
+
             if (string.IsNullOrEmpty(request.Email))
                 throw new BadRequestException("Email not empty");
 
@@ -89,6 +116,10 @@ namespace MyTicket.Application.Businesses.Auth.Commands
                 UserName = responseUser.UserName,
                 Role = role
             };
+
+            channel.BasicConsume("AuthQueue", true, consumer);
+
+            Console.ReadKey();
 
             return response;
         }

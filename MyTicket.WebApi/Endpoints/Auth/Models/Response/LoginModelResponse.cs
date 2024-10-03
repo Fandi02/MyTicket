@@ -1,18 +1,18 @@
-namespace MyTicket.WebApi.Models.Response.Auth;
+namespace MyTicket.WebApi.Endpoints.Auth.Models.Response;
 
-public class AuthenticationResponse
+public class LoginModelResponse
 {
-    public AuthenticationResponse()
+    public LoginModelResponse()
     {
         Scheme = "bearer";
     }
 
-    public AuthenticationResponse(string token) : this()
+    public LoginModelResponse(string token) : this()
     {
         Token = token;
     }
 
-    public AuthenticationResponse(string scheme, string token, string refreshToken, DateTime? refreshTokenExpiredOn)
+    public LoginModelResponse(string scheme, string token, string refreshToken, DateTime? refreshTokenExpiredOn)
     {
         Scheme = scheme;
         Token = token;

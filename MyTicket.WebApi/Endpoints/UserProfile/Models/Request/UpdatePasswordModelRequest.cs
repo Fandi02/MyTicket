@@ -1,6 +1,6 @@
-namespace MyTicket.WebApi.Models.Request.UserProfile;
+namespace MyTicket.WebApi.Endpoints.UserProfile.Models.Request;
 
-public class UpdatePasswordRequest
+public class UpdatePasswordModelRequest
 {
     public string PasswordOld { get; set; }
     public string PasswordNew { get; set; }
