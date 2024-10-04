@@ -11,5 +11,5 @@ public class User : BaseEntity
     public DateTime BirthDate { get; set; }
 
     public ICollection<UserPassword>? UserPasswords { get; set; }
-    public ICollection<UserRole>? UserRoles { get; set; }
+    public UserRole? UserRoles { get; set; }
 }
