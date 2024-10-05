@@ -6,25 +6,29 @@ namespace MyTicket.WebApi.ServiceMessageBroker;
 
 public class MessageProducer : IMessageProducer
 {
-    public void SendingMessage<T>(T message)
+    private readonly ConnectionFactory _factory;
+    public MessageProducer()
     {
-        var factory = new ConnectionFactory
+        _factory = new ConnectionFactory
         {
             HostName = "localhost",
             UserName = "MyUser",
             Password = "MyPassword",
             VirtualHost = "/"
         };
+    }
 
-        var conn = factory.CreateConnection();
+    public void SendingMessage(string queueName, object message)
+    {
+        var conn = _factory.CreateConnection();
 
         using var channel = conn.CreateModel();
 
-        channel.QueueDeclare("AuthQueue", durable: false, exclusive: false);
+        channel.QueueDeclare(queueName, durable: false, exclusive: false);
 
         var jsonString = JsonSerializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(jsonString);
 
-        channel.BasicPublish("", "AuthQueue", body: body);
+         channel.BasicPublish(exchange: "", routingKey: queueName, basicProperties: null, body: body);
     }
 }
