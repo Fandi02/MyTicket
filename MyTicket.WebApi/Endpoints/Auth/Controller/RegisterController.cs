@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using MyTicket.Application.Businesses.Auth.Commands;
 using MyTicket.Application.Exceptions;
 using MyTicket.Domain.Entities;
 using MyTicket.WebApi.Endpoints.Auth.Models.Request;
@@ -43,16 +44,16 @@ public class RegisterController : BaseEndpointWithoutResponse<RegisterModelReque
             if (request.UserRole != UserRoleEnum.Admin && request.UserRole != UserRoleEnum.User)
                 throw new BadRequestException("User role not match");
 
-            // await _mediator.Send(new RegisterCommand { 
-            //     Email = request.Email, 
-            //     PhoneNumber = request.PhoneNumber,
-            //     FullName = request.FullName,
-            //     UserName = request.UserName,
-            //     Age = request.Age,
-            //     BirthDate = request.BirthDate,
-            //     Password = request.Password, 
-            //     Role = request.UserRole
-            // });
+            await _mediator.Send(new RegisterCommand { 
+                Email = request.Email, 
+                PhoneNumber = request.PhoneNumber,
+                FullName = request.FullName,
+                UserName = request.UserName,
+                Age = request.Age,
+                BirthDate = request.BirthDate,
+                Password = request.Password, 
+                Role = request.UserRole
+            });
 
             var producer = new MessageProducer();
             producer.SendingMessage("email_queue", request);

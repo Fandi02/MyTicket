@@ -23,6 +23,7 @@ public static class TokenBuilder
         List<Claim> claims = new List<Claim>();
 
         claims.Add(new Claim(ApplicationClaimConstant.UserId, user.UserId.ToString(), ClaimValueTypes.String));
+        claims.Add(new Claim(ApplicationClaimConstant.Email, user.Email, ClaimValueTypes.String));
         claims.Add(new Claim(ApplicationClaimConstant.UserName, user.UserName, ClaimValueTypes.String));
         claims.Add(new Claim(ApplicationClaimConstant.FullName, user.FullName, ClaimValueTypes.String));
         claims.Add(new Claim(ApplicationClaimConstant.Role, user.Role, ClaimValueTypes.String));

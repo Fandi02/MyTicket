@@ -85,6 +85,7 @@ namespace MyTicket.Application.Businesses.Auth.Commands
             LoginResponse response = new LoginResponse
             {
                 UserId = responseUser.UserId,
+                Email = responseUser.Email,
                 FullName = responseUser.FullName,
                 UserName = responseUser.UserName,
                 Role = role

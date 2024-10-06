@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
-using MyTicket.WebApi.Endpoints.Auth.Models.Request;
+using MyTicket.WebApi.Endpoints.UserProfile.Models.Service;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 
-namespace MyTicket.WebApi.Endpoints.Auth.Services;
+namespace MyTicket.WebApi.Endpoints.UserProfile.Services;
 
-public class RegisterEmailConsumer : BackgroundService
+public class UpdatePasswordConsumer : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IConfiguration _configuration;
     private readonly ConnectionFactory _factory;
 
-    public RegisterEmailConsumer(IServiceProvider serviceProvider, IConfiguration configuration)
+    public UpdatePasswordConsumer(IServiceProvider serviceProvider, IConfiguration configuration)
     {
         _serviceProvider = serviceProvider;
         _configuration = configuration;
@@ -31,7 +31,7 @@ public class RegisterEmailConsumer : BackgroundService
         using var connection = _factory.CreateConnection();
         using var channel = connection.CreateModel();
         
-        channel.QueueDeclare(queue: "email_queue", durable: false, exclusive: false, autoDelete: true, arguments: null);
+        channel.QueueDeclare(queue: "email_queue_update_password", durable: false, exclusive: false, autoDelete: true, arguments: null);
 
         var consumer = new EventingBasicConsumer(channel);
         consumer.Received += async (model, ea) =>
@@ -43,13 +43,13 @@ public class RegisterEmailConsumer : BackgroundService
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
 
-                var registerModelRequest = JsonConvert.DeserializeObject<RegisterModelRequest>(message);
+                var updatePasswordModelRequest = JsonConvert.DeserializeObject<UpdatePasswordServiceModel>(message);
 
-                if (registerModelRequest != null && registerModelRequest.Email != null)
+                if  (updatePasswordModelRequest != null && updatePasswordModelRequest.Email != null)
                 {
-                    var toEmail = registerModelRequest.Email;
-                    var subject = "Welcome to MyTicket";
-                    var bodyText = $"Hello {registerModelRequest.FullName}, thank you for registering!";
+                    var toEmail = updatePasswordModelRequest.Email;
+                    var subject = "MyTicket APP";
+                    var bodyText = $"Hello  {updatePasswordModelRequest.FullName}, your password has been updated!";
 
                     // Kirim email
                     await emailSender.SendEmailAsync(toEmail, subject, bodyText);
@@ -57,7 +57,7 @@ public class RegisterEmailConsumer : BackgroundService
             }
         };
 
-        channel.BasicConsume(queue: "email_queue", autoAck: true, consumer: consumer);
+        channel.BasicConsume(queue: "email_queue_update_password", autoAck: true, consumer: consumer);
 
         // Ini akan menjaga listener tetap berjalan sampai service dihentikan
         while (!stoppingToken.IsCancellationRequested)
