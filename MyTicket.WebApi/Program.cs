@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using MyTicket.Application.Infrastructure;
 using MyTicket.Application.Infrastructure.SystemTextJson;
 using MyTicket.Application.Interfaces;
 using MyTicket.Persistence;
 using MyTicket.WebApi.Common;
+using MyTicket.WebApi.Endpoints.Auth.Services;
 using MyTicket.WebApi.ServiceMessageBroker;
 using MyTicket.WebApi.Services;
 
@@ -35,6 +35,8 @@ builder.Services.AddApplicationServices();
 builder.Services.AddTransient<ApplicationJwtManager>();
 builder.Services.AddScoped<IMyTicketDbContext, MyTicketDbContext>();
 builder.Services.AddScoped<IMessageProducer, MessageProducer>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddHostedService<RegisterEmailConsumer>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
