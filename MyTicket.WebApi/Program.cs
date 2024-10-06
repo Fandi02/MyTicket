@@ -8,6 +8,7 @@ using MyTicket.Application.Interfaces;
 using MyTicket.Persistence;
 using MyTicket.WebApi.Common;
 using MyTicket.WebApi.Endpoints.Auth.Services;
+using MyTicket.WebApi.Endpoints.Event.Services;
 using MyTicket.WebApi.Endpoints.UserProfile.Services;
 using MyTicket.WebApi.ServiceMessageBroker;
 using MyTicket.WebApi.Services;
@@ -39,6 +40,8 @@ builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddHostedService<RegisterEmailConsumer>();
 builder.Services.AddHostedService<UpdatePasswordConsumer>();
+builder.Services.AddHostedService<CreateEventConsumer>();
+builder.Services.AddHostedService<UpdateEventConsumer>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
