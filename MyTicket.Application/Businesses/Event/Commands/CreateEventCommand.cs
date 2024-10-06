@@ -11,7 +11,7 @@ namespace MyTicket.Application.Businesses.Event.Commands
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int AvailableTickets { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         public string Location { get; set; }
     }
 

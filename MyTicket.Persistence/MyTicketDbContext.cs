@@ -28,6 +28,7 @@ namespace MyTicket.Persistence
         public DbSet<UserPassword> UserPasswords { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<OrderTicket> OrderTickets { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
@@ -60,6 +61,7 @@ namespace MyTicket.Persistence
                         entry.Entity.LastUpdatedAt = _clock.CurrentDate();
                         entry.Entity.LastUpdatedAtServer = _clock.CurrentServerDate();
                         entry.Entity.IsDeleted = true;
+                        entry.State = EntityState.Modified;
                         break;
                 }
             }

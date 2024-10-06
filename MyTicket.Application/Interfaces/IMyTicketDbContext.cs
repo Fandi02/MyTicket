@@ -10,6 +10,7 @@ namespace MyTicket.Application.Interfaces
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserPassword> UserPasswords { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<OrderTicket> OrderTickets { get; set; }
         
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
