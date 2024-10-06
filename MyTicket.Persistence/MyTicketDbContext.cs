@@ -1,6 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Data;
 using MyTicket.Domain.Entities;
 using MyTicket.Application.Interfaces;
 
@@ -24,6 +22,7 @@ namespace MyTicket.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<UserPassword> UserPasswords { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Event> Events { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
