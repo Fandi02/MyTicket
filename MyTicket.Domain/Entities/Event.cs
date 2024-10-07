@@ -10,4 +10,5 @@ public class Event : BaseEntity
     public int AvailableTickets { get; set; }
     public decimal Price { get; set; }
     public string Location { get; set; }
+    public ICollection<OrderTicket>? orderTicket { get; set; }
 }
