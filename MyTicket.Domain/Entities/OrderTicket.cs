@@ -12,4 +12,5 @@ public class OrderTicket : BaseEntity
     public decimal Price { get; set; }
     public DateTime Date { get; set; }
     public bool IsPaid { get; set; } = false;
+    public ICollection<Payment> Payment { get; set; }
 }

@@ -13,4 +13,5 @@ public class User : BaseEntity
     public ICollection<UserPassword>? UserPasswords { get; set; }
     public UserRole? UserRoles { get; set; }
     public ICollection<OrderTicket>? orderTicket { get; set; }
+    public ICollection<Payment>? Payments { get; set; }
 }
