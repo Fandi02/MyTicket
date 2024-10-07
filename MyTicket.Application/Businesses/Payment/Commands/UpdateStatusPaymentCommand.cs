@@ -1,19 +1,20 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MyTicket.Application.Businesses.Payment.Models;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Interfaces;
 using MyTicket.Domain.Entities;
 
 namespace MyTicket.Application.Businesses.OrderTicket.Commands
 {
-    public class UpdateStatusPaymentCommand: IRequest<bool>
+    public class UpdateStatusPaymentCommand: IRequest<UpdateStatusCommandResponse>
     {
         public Guid PaymentId { get; set; }
         public StatusPaymentEnum Status { get; set; }
         public string? RejectedReason { get; set; }
     }
 
-    public class UpdateStatusPaymentCommandHandler : IRequestHandler<UpdateStatusPaymentCommand, bool>
+    public class UpdateStatusPaymentCommandHandler : IRequestHandler<UpdateStatusPaymentCommand, UpdateStatusCommandResponse>
     {
         private readonly IMyTicketDbContext _dbContext;
         private readonly IContext _context;
@@ -25,15 +26,17 @@ namespace MyTicket.Application.Businesses.OrderTicket.Commands
             _clock = clock;
         }
 
-        public async Task<bool> Handle(UpdateStatusPaymentCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateStatusCommandResponse> Handle(UpdateStatusPaymentCommand request, CancellationToken cancellationToken)
         {
             if (
                     request.PaymentId == Guid.Empty
                 )
                 throw new BadRequestException("Request is null");
 
-            var getPayment = await _dbContext.Payments.
-                                        FirstOrDefaultAsync(x => 
+            var getPayment = await _dbContext.Payments
+                                        .Include(x => x.User)
+                                        .Include(x => x.OrderTicket.Event)
+                                        .FirstOrDefaultAsync(x => 
                                             x.PaymentId == request.PaymentId &&
                                             x.Status == StatusPaymentEnum.Received &&
                                             x.IsDeleted == false
@@ -48,7 +51,16 @@ namespace MyTicket.Application.Businesses.OrderTicket.Commands
             _dbContext.Payments.Update(getPayment);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return true;
+            var response = new UpdateStatusCommandResponse
+            {
+                Email = getPayment.User.Email,
+                FullName = getPayment.User.FullName,
+                EventName = getPayment.OrderTicket.Event.Name,
+                TicketNumber = getPayment.OrderTicket.TicketNumber,
+                RejectedReason = !string.IsNullOrEmpty(getPayment.RejectedReason) ? getPayment.RejectedReason : ""
+            };
+
+            return response;
         }
     }
 }

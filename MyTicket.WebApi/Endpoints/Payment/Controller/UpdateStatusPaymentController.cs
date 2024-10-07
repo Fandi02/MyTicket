@@ -6,6 +6,7 @@ using MyTicket.Application.Constant;
 using MyTicket.Application.Exceptions;
 using MyTicket.Domain.Entities;
 using MyTicket.WebApi.Endpoints.Payment.Models.Request;
+using MyTicket.WebApi.ServiceMessageBroker;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace MyTicket.WebApi.Endpoints.Payment;
@@ -47,12 +48,40 @@ public class UpdateStatusPaymentController : BaseEndpointWithoutResponse<UpdateS
                 mediator = HttpContext.RequestServices.GetRequiredService<IMediator>();
             }
 
-            await _mediator.Send(new UpdateStatusPaymentCommand 
+            var response = await _mediator.Send(new UpdateStatusPaymentCommand 
                                         { 
                                             PaymentId = request.PaymentId,
                                             Status = request.Status,
                                             RejectedReason = !string.IsNullOrEmpty(request.RejectedReason) ? request.RejectedReason : ""
                                         });
+
+            if (request.Status == StatusPaymentEnum.Rejected)
+            {
+                var rejectedPayment = new
+                {
+                    Email = response.Email,
+                    FullName = response.FullName,
+                    EventName = response.EventName,
+                    TicketNumber = response.TicketNumber,
+                    RejectedReason = response.RejectedReason
+                };
+
+                var producer = new MessageProducer();
+                producer.SendingMessage("payment-rejected", rejectedPayment);
+            }
+            else if (request.Status == StatusPaymentEnum.Approved)
+            {
+                var approvedPayment = new
+                {
+                    Email = response.Email,
+                    FullName = response.FullName,
+                    EventName = response.EventName,
+                    TicketNumber = response.TicketNumber
+                };
+
+                var producer = new MessageProducer();
+                producer.SendingMessage("payment-approved", approvedPayment);
+            }
 
             return Ok();
         } catch (Exception ex)

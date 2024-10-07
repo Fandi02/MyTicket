@@ -10,6 +10,7 @@ using MyTicket.WebApi.Common;
 using MyTicket.WebApi.Endpoints.Auth.Services;
 using MyTicket.WebApi.Endpoints.Event.Services;
 using MyTicket.WebApi.Endpoints.OrderTicket.Services;
+using MyTicket.WebApi.Endpoints.Payment.Services;
 using MyTicket.WebApi.Endpoints.UserProfile.Services;
 using MyTicket.WebApi.ServiceMessageBroker;
 using MyTicket.WebApi.Services;
@@ -45,6 +46,8 @@ builder.Services.AddHostedService<CreateEventConsumer>();
 builder.Services.AddHostedService<UpdateEventConsumer>();
 builder.Services.AddHostedService<CreateOrderConsumer>();
 builder.Services.AddHostedService<UpdateOrderConsumer>();
+builder.Services.AddHostedService<PaymentRejectedConsumer>();
+builder.Services.AddHostedService<PaymentApprovedConsumer>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
