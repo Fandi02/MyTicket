@@ -20,7 +20,7 @@ public class UpdateEventController : BaseEndpointWithoutResponse<UpdateEventRequ
         _mediator = mediator;
     }
 
-    [HttpPut("update-event/{EventId}")]
+    [HttpPut("{EventId}")]
     [Authorize]
     [SwaggerOperation(
         Summary = "Update event",

@@ -18,7 +18,7 @@ public class DeleteEventController : BaseEndpointWithoutResponse<DeleteEventRequ
         _mediator = mediator;
     }
 
-    [HttpDelete("delete-event/{EventId}")]
+    [HttpDelete("{EventId}")]
     [Authorize]
     [SwaggerOperation(
         Summary = "Delete event",

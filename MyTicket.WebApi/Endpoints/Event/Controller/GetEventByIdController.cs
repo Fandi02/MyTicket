@@ -16,7 +16,7 @@ public class GetEventByIdController : BaseEndpoint<EventByIdRequest, GetEventRes
         _mediator = mediator;
     }
 
-    [HttpGet("get-event-by-id/{EventId}")]
+    [HttpGet("{EventId}")]
     [Authorize]
     [SwaggerOperation(
         Summary = "Get event by id",

@@ -20,7 +20,7 @@ public class CreateEventController : BaseEndpointWithoutResponse<CreateEventRequ
         _mediator = mediator;
     }
 
-    [HttpPost("create-event")]
+    [HttpPost]
     [Authorize]
     [SwaggerOperation(
         Summary = "Create event",

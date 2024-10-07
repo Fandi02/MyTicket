@@ -16,7 +16,7 @@ public class GetListEventController : BaseEndpoint<GetListEventRequest, GetEvent
         _mediator = mediator;
     }
 
-    [HttpGet("get-list-event")]
+    [HttpGet]
     [Authorize]
     [SwaggerOperation(
         Summary = "Get list event",

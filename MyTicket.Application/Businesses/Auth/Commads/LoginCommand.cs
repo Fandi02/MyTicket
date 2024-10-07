@@ -61,7 +61,7 @@ namespace MyTicket.Application.Businesses.Auth.Commands
                     throw new BadRequestException("Please check your account role and try again");
                 } 
                 
-                role = UserRoleEnum.Admin.ToString();
+                role = UserRoleEnum.User.ToString();
             }
             else 
             {
