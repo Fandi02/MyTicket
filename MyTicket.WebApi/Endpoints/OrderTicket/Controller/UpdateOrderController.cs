@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyTicket.Application.Businesses.OrderTicket.Commands;
 using MyTicket.Application.Constant;
 using MyTicket.Application.Exceptions;
 using MyTicket.Domain.Entities;
 using MyTicket.WebApi.Endpoints.OrderTicket.Models.Request;
+using MyTicket.WebApi.ServiceMessageBroker;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace MyTicket.WebApi.Endpoints.OrderTicket;
@@ -47,11 +47,14 @@ public class UpdateOrderController : BaseEndpointWithoutResponse<UpdateOrderTick
                 mediator = HttpContext.RequestServices.GetRequiredService<IMediator>();
             }
 
-            await _mediator.Send(new UpdateOrderCommand
-                                    { 
-                                        OrderTicketId = request.OrderTicketId,
-                                        Quantity = request.Quantity
-                                    });
+            var updateOrder = new
+            {
+                OrderTicketId = request.OrderTicketId,
+                Quantity = request.Quantity
+            };
+
+            var producer = new MessageProducer();
+            producer.SendingMessage("update-order", updateOrder);
 
             return Ok();
         } catch (Exception ex)
