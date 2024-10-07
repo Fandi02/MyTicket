@@ -19,4 +19,5 @@ public class Payment : BaseEntity
     public User User { get; set; }
     public Guid OrderTicketId { get; set; }
     public OrderTicket OrderTicket { get; set; }
+    public string? RejectedReason { get; set; } = "";
 }

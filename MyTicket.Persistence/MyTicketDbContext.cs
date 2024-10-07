@@ -29,6 +29,7 @@ namespace MyTicket.Persistence
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<OrderTicket> OrderTickets { get; set; }
+        public DbSet<Payment> Payments { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
