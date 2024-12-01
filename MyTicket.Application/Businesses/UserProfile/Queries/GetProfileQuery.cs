@@ -2,7 +2,7 @@ using MediatR;
 using MyTicket.Application.Businesses.UserProfile.Models;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Interfaces;
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Auth;
 
 namespace MyTicket.Application.UserProfile.Queries;
 public class GetProfileQuery : IRequest<GetProfileResponse>

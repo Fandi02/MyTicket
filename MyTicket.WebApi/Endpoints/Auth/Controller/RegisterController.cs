@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using MyTicket.Application.Businesses.Auth.Commands;
 using MyTicket.Application.Exceptions;
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Auth;
 using MyTicket.WebApi.Endpoints.Auth.Models.Request;
 using MyTicket.WebApi.ServiceMessageBroker;
 using Swashbuckle.AspNetCore.Annotations;

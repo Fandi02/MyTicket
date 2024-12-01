@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using MyTicket.Application.Interfaces;
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Auth;
 using System.Security.Claims;
 
 namespace MyTicket.Application.Services

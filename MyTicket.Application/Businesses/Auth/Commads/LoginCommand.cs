@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Extensions;
 using MyTicket.Application.Interfaces;
-using MyTicket.Domain.Entities;
 using MyTicket.Application.Businesses.Auth.Models;
+using MyTicket.Domain.Entities.Auth;
 
 namespace MyTicket.Application.Businesses.Auth.Commands
 {

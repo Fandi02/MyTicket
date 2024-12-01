@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MyTicket.Application.Businesses.Event.Models;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Interfaces;
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Auth;
 
 namespace MyTicket.Application.Businesses.Event.Queries;
 public class GetRoleUser : IRequest<IEnumerable<GetRoleUserResponse>>

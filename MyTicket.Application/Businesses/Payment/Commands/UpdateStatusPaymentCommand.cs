@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MyTicket.Application.Businesses.Payment.Models;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Interfaces;
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Payment;
 
 namespace MyTicket.Application.Businesses.OrderTicket.Commands
 {

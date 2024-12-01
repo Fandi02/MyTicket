@@ -1,0 +1,6 @@
+@MyTicket.WebApi.Auth_HostAddress = http://localhost:5205
+
+GET {{MyTicket.WebApi.Auth_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

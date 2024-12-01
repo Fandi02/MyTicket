@@ -1,5 +1,5 @@
 using MyTicket.Application.Models;
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Payment;
 
 namespace MyTicket.Application.Businesses.Payment.Models;
 

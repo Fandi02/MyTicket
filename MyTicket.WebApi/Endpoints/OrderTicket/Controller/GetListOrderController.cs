@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyTicket.Application.Businesses.OrderTicket.Queries;
 using MyTicket.Application.Constant;
 using MyTicket.Application.Exceptions;
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Auth;
 using MyTicket.WebApi.Endpoints.OrderTicket.Models.Request;
 using MyTicket.WebApi.Endpoints.OrderTicket.Models.Response;
 using Swashbuckle.AspNetCore.Annotations;

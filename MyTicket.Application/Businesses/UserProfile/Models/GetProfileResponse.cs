@@ -1,4 +1,4 @@
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Auth;
 
 namespace MyTicket.Application.Businesses.UserProfile.Models;
 

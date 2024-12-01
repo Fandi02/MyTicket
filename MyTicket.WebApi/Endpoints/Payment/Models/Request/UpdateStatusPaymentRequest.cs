@@ -1,4 +1,4 @@
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Payment;
 
 namespace MyTicket.WebApi.Endpoints.Payment.Models.Request;
 

@@ -5,7 +5,7 @@ using MyTicket.Application.Businesses.Event.Commands;
 using MyTicket.Application.Businesses.Event.Queries;
 using MyTicket.Application.Constant;
 using MyTicket.Application.Exceptions;
-using MyTicket.Domain.Entities;
+using MyTicket.Domain.Entities.Auth;
 using MyTicket.WebApi.Endpoints.Event.Models.Request;
 using MyTicket.WebApi.ServiceMessageBroker;
 using Swashbuckle.AspNetCore.Annotations;
