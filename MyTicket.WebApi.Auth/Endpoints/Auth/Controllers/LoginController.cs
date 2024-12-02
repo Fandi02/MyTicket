@@ -31,31 +31,26 @@ public class LoginController : BaseEndpoint<LoginModelRequest, LoginModelRespons
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public override async Task<ActionResult<LoginModelResponse>> HandleAsync([FromBody] LoginModelRequest request, CancellationToken cancellationToken = default)
     {
-        try {
-            var mediator = _mediator;
+        var mediator = _mediator;
         
-            if (mediator is null)
-            {
-                var logger = HttpContext.RequestServices.GetRequiredService<ILogger<LoginController>>();
-                logger.LogWarning("Mediator login is null, fallback to GetRequiredService");
-                mediator = HttpContext.RequestServices.GetRequiredService<IMediator>();
-            }
-
-            var result = await _mediator.Send(new LoginCommand { Email = request.Email, Password = request.Password, ApplicationCode = request.ApplicationCode });
-
-            var jwtManager = _applicationJwtManager;
-
-            if (jwtManager is null)
-            {
-                var logger = HttpContext.RequestServices.GetRequiredService<ILogger<LoginController>>();
-                logger.LogWarning("JwtManager login is null, fallback to GetRequiredService");
-                jwtManager = HttpContext.RequestServices.GetRequiredService<ApplicationJwtManager>();
-            }
-
-            return TokenBuilder.Build(jwtManager, result);
-        } catch (Exception ex)
+        if (mediator is null)
         {
-            return BadRequest(ex.Message);
+            var logger = HttpContext.RequestServices.GetRequiredService<ILogger<LoginController>>();
+            logger.LogWarning("Mediator login is null, fallback to GetRequiredService");
+            mediator = HttpContext.RequestServices.GetRequiredService<IMediator>();
         }
+
+        var result = await _mediator.Send(new LoginCommand { Email = request.Email, Password = request.Password, ApplicationCode = request.ApplicationCode });
+
+        var jwtManager = _applicationJwtManager;
+
+        if (jwtManager is null)
+        {
+            var logger = HttpContext.RequestServices.GetRequiredService<ILogger<LoginController>>();
+            logger.LogWarning("JwtManager login is null, fallback to GetRequiredService");
+            jwtManager = HttpContext.RequestServices.GetRequiredService<ApplicationJwtManager>();
+        }
+
+        return TokenBuilder.Build(jwtManager, result);
     }
 }

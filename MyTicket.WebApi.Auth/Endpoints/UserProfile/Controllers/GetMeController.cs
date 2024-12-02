@@ -28,27 +28,22 @@ public class GetMeController : BaseEndpoint<GetUserProfileResponse>
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public override async Task<ActionResult<GetUserProfileResponse>> HandleAsync(CancellationToken cancellationToken = default)
     {
-        try {
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ApplicationClaimConstant.UserId)?.Value;
-            var role = User.Claims.FirstOrDefault(x => x.Type == ApplicationClaimConstant.Role)?.Value;
+        var userId = User.Claims.FirstOrDefault(x => x.Type == ApplicationClaimConstant.UserId)?.Value;
+        var role = User.Claims.FirstOrDefault(x => x.Type == ApplicationClaimConstant.Role)?.Value;
 
-            if (userId is null)
-                throw new NotFoundException("User Id not found");
+        if (userId is null)
+            throw new NotFoundException("User Id not found");
 
-            var mediator = _mediator;
-            if (mediator is null)
-            {
-                var logger = HttpContext.RequestServices.GetRequiredService<ILogger<GetMeController>>();
-                logger.LogWarning("Mediator login is null, fallback to GetRequiredService");
-                mediator = HttpContext.RequestServices.GetRequiredService<IMediator>();
-            }
-
-            var result = await _mediator.Send(new GetProfileQuery { UserId = Guid.Parse(userId), UserRole = role });
-
-            return Ok(result);
-        } catch (Exception ex)
+        var mediator = _mediator;
+        if (mediator is null)
         {
-            return BadRequest(ex.Message);
+            var logger = HttpContext.RequestServices.GetRequiredService<ILogger<GetMeController>>();
+            logger.LogWarning("Mediator login is null, fallback to GetRequiredService");
+            mediator = HttpContext.RequestServices.GetRequiredService<IMediator>();
         }
+
+        var result = await _mediator.Send(new GetProfileQuery { UserId = Guid.Parse(userId), UserRole = role });
+
+        return Ok(result);
     }
 }

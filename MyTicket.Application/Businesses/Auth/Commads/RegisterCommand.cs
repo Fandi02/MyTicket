@@ -1,6 +1,9 @@
 using System.Text;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Extensions;
 using MyTicket.Application.Interfaces;
@@ -23,10 +26,14 @@ namespace MyTicket.Application.Businesses.Auth.Commands
     {
         private readonly IMyTicketDbContext _dbContext;
         private readonly IContext _context;
-        public RegisterCommandHandler(IMyTicketDbContext dbContext, IContext context)
+        private readonly IConfiguration _configuration;
+        private readonly IEmailSender _emailSender;
+        public RegisterCommandHandler(IMyTicketDbContext dbContext, IContext context, IConfiguration configuration, IEmailSender emailSender)
         {
             _dbContext = dbContext;
             _context = context;
+            _configuration = configuration;
+            _emailSender = emailSender;
         }
 
         public async Task<string> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -72,6 +79,12 @@ namespace MyTicket.Application.Businesses.Auth.Commands
             await _dbContext.Users.AddAsync(saveUser);
             await _dbContext.UserPasswords.AddAsync(saveUserPassword);
             await _dbContext.SaveChangesAsync(cancellationToken);
+
+            var subject = "Welcome to MyTicket";
+            var link = $"{_configuration["BaseUrl"]}/api/auth/activation?id={saveUser.UserId}";
+            var bodyText = $"Hello {request.FullName}, thank you for registering!. Please klik this link for activation -> {link}";
+
+            await _emailSender.SendEmailAsync(request.Email, subject, bodyText);
 
             return await Task.FromResult(saveUser.Email);
         }

@@ -1,5 +1,5 @@
-using System.ComponentModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using MyTicket.Application.Infrastructure;
@@ -38,6 +38,7 @@ builder.Services.AddApplicationServices();
 
 builder.Services.AddTransient<ApplicationJwtManager>();
 builder.Services.AddScoped<IMyTicketDbContext, MyTicketDbContext>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 builder.Services.AddAuthentication(o =>
 {

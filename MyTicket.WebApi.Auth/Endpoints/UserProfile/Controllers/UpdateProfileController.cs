@@ -28,27 +28,22 @@ public class UpdateProfileController : BaseEndpointWithoutResponse<UpdateProfile
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public override async Task<ActionResult> HandleAsync([FromBody] UpdateProfileModelRequest request, CancellationToken cancellationToken = default)
     {
-        try {
-            if (request is null)
-                throw new BadRequestException("Request is null");
+        if (request is null)
+            throw new BadRequestException("Request is null");
 
-            var userId = User.Claims.FirstOrDefault(x => x.Type == ApplicationClaimConstant.UserId)?.Value;
+        var userId = User.Claims.FirstOrDefault(x => x.Type == ApplicationClaimConstant.UserId)?.Value;
 
-            if (userId is null)
-                throw new NotFoundException("User Id not found");
+        if (userId is null)
+            throw new NotFoundException("User Id not found");
 
-            await _mediator.Send(new UpdateProfileCommand {
-                UserId = Guid.Parse(userId), 
-                PhoneNumber = request.PhoneNumber,
-                FullName = request.FullName,
-                UserName = request.UserName,
-                BirthDate = request.BirthDate
-            });
+        await _mediator.Send(new UpdateProfileCommand {
+            UserId = Guid.Parse(userId), 
+            PhoneNumber = request.PhoneNumber,
+            FullName = request.FullName,
+            UserName = request.UserName,
+            BirthDate = request.BirthDate
+        });
 
-            return Ok();
-        } catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        return Ok();
     }
 }

@@ -66,6 +66,9 @@ namespace MyTicket.Application.Businesses.Auth.Commands
                 throw new BadRequestException("Please check your account role and try again");
             }
 
+            if (!responseUser.IsActivate)
+                throw new BadRequestException("Please check email and activation your account!");
+
             var userPassword = await _dbContext.UserPasswords.FirstOrDefaultAsync(x => x.UserId == responseUser.UserId && x.IsActive == true && x.IsDeleted == false);
 
             if (userPassword == null)
