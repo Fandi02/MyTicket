@@ -35,7 +35,7 @@ public class GetProfileQueryHandler : IRequestHandler<GetProfileQuery, GetProfil
             FullName = response.FullName,
             UserName = response.UserName,
             BirthDate = response.BirthDate,
-            Role = request.UserRole == "Admin" ? UserRoleEnum.Admin : UserRoleEnum.User
+            Role = response.Role
         };
     }
 }

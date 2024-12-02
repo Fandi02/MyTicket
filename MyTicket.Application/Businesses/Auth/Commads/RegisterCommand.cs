@@ -14,7 +14,6 @@ namespace MyTicket.Application.Businesses.Auth.Commands
         public string PhoneNumber { get; set; } = null!;
         public string FullName { get; set; } = null!;
         public string UserName { get; set; } = null!;
-        public int Age { get; set; }
         public DateTime BirthDate { get; set; }
         public string Password { get; set; } = null!;
         public UserRoleEnum Role { get; set; }
@@ -37,7 +36,6 @@ namespace MyTicket.Application.Businesses.Auth.Commands
                     string.IsNullOrEmpty(request.PhoneNumber) ||
                     string.IsNullOrEmpty(request.UserName) ||
                     string.IsNullOrEmpty(request.FullName) ||
-                    request.Age == 0 ||
                     string.IsNullOrEmpty(request.BirthDate.ToString()) ||
                     string.IsNullOrEmpty(request.Password)
                 )

@@ -5,9 +5,10 @@ using MyTicket.Application.Businesses.Auth.Commands;
 using MyTicket.Application.Exceptions;
 using MyTicket.Domain.Entities.Auth;
 using MyTicket.WebApi.Auth.Endpoints.Auth.Models.Request;
+using MyTicket.WebApi.Endpoints;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace MyTicket.WebApi.Endpoints.Auth;
+namespace MyTicket.WebApi.Auth.Endpoints.Auth;
 
 public class RegisterController : BaseEndpointWithoutResponse<RegisterModelRequest>
 {

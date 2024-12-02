@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace MyTicket.WebApi.Endpoints.UserProfile;
 
-public class GetMeController : BaseEndpoint<object?, GetUserProfileResponse>
+public class GetMeController : BaseEndpoint<GetUserProfileResponse>
 {
     private readonly IMediator _mediator;
     public GetMeController(IMediator mediator)
@@ -26,7 +26,7 @@ public class GetMeController : BaseEndpoint<object?, GetUserProfileResponse>
     ]
     [ProducesResponseType(typeof(GetUserProfileResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-    public override async Task<ActionResult<GetUserProfileResponse>> HandleAsync([FromQuery] object request = null, CancellationToken cancellationToken = default)
+    public override async Task<ActionResult<GetUserProfileResponse>> HandleAsync(CancellationToken cancellationToken = default)
     {
         try {
             var userId = User.Claims.FirstOrDefault(x => x.Type == ApplicationClaimConstant.UserId)?.Value;
