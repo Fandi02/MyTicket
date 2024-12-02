@@ -24,4 +24,9 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+		<ProjectReference Include="..\MyTicket.Application\MyTicket.Application.csproj" />
+		<ProjectReference Include="..\MyTicket.Persistence\MyTicket.Persistence.csproj" />
+	</ItemGroup>
+
 </Project>
