@@ -4,6 +4,7 @@ using MyTicket.Application.Interfaces;
 using MyTicket.Application.Constant;
 using Microsoft.AspNetCore.Http;
 using MyTicket.Domain.Entities.Transaction;
+using MyTicket.Domain.Entities.Auth;
 
 namespace MyTicket.Persistence
 {
@@ -25,6 +26,7 @@ namespace MyTicket.Persistence
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<OrderTicket> OrderTickets { get; set; }
 
