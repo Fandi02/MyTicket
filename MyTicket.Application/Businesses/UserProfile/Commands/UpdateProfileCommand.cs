@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MyTicket.Application.Constant;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Interfaces;
+using MyTicket.Application.Services;
 
 namespace MyTicket.Application.Businesses.Auth.Commands
 {
@@ -49,6 +51,23 @@ namespace MyTicket.Application.Businesses.Auth.Commands
 
             _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync(cancellationToken);
+
+            if (user.IsActivate)
+            {
+                var producerUser = new 
+                {
+                    EventType = EventTypeRabbitMq.UpdateUser,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    FullName = user.FullName,
+                    UserName = user.UserName,
+                    BirthDate = user.BirthDate,
+                    Role = user.Role
+                };
+
+                var producer = new MessageProducer();
+                producer.SendingMessage("user_updated", producerUser);
+            }
 
             return true;
         }

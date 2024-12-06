@@ -1,8 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
+using MyTicket.Application.Constant;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Interfaces;
+using MyTicket.Application.Services;
 
 namespace MyTicket.Application.Businesses.Auth.Commands
 {
@@ -31,6 +33,24 @@ namespace MyTicket.Application.Businesses.Auth.Commands
 
             if (getUser == null)
                 throw new BadRequestException("User not found");
+
+            if (!getUser.IsActivate)
+            {
+                var producerUser = new 
+                {
+                    EventType = EventTypeRabbitMq.CreateUser,
+                    UserId = getUser.UserId,
+                    Email = getUser.Email,
+                    PhoneNumber = getUser.PhoneNumber,
+                    FullName = getUser.FullName,
+                    UserName = getUser.UserName,
+                    BirthDate = getUser.BirthDate,
+                    Role = getUser.Role
+                };
+
+                var producer = new MessageProducer();
+                producer.SendingMessage("user_created", producerUser);
+            }
 
             getUser.IsActivate = true;
 
