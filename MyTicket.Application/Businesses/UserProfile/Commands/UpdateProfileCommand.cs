@@ -57,6 +57,7 @@ namespace MyTicket.Application.Businesses.Auth.Commands
                 var producerUser = new 
                 {
                     EventType = EventTypeRabbitMq.UpdateUser,
+                    UserId = user.UserId,
                     Email = user.Email,
                     PhoneNumber = user.PhoneNumber,
                     FullName = user.FullName,
