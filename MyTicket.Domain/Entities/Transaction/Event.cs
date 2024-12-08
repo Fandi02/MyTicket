@@ -8,6 +8,7 @@ public class Event : BaseEntity
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public int TotalTicket { get; set; }
+    public int AvailableTicket { get; set; }
     public decimal Price { get; set; }
     public string Location { get; set; }
     public ICollection<OrderTicket>? OrderTickets { get; set; }
