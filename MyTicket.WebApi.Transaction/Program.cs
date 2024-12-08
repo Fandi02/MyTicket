@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using MyTicket.Application.Infrastructure;
 using MyTicket.Application.Interfaces;
+using MyTicket.Application.Models;
+using MyTicket.Application.Services;
 using MyTicket.Persistence;
 using MyTicket.WebApi.Transaction.Common;
 using MyTicket.WebApi.Transaction.Services;
@@ -56,6 +58,9 @@ builder.Services.AddAuthorization(opts =>
 });
 
 builder.Services.AddSwaggerGen2();
+
+builder.Services.Configure<UserModel>(builder.Configuration.GetSection("RabbitMq"));
+builder.Services.AddHostedService<ConsumerUser>();
 
 var app = builder.Build();
 
