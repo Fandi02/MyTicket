@@ -16,6 +16,4 @@ public class User : BaseEntity
     public DateTime BirthDate { get; set; }
     public bool IsActivate { get; set; }
     public UserRoleEnum Role { get; set; }
-
-    public ICollection<UserPassword>? UserPasswords { get; set; }
 }
