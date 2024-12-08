@@ -32,6 +32,7 @@ public class GetEventByIdQueryHandler : IRequestHandler<GetEventByIdQuery, GetEv
                                 StartDate = x.StartDate,
                                 EndDate = x.EndDate,
                                 TotalTicket = x.TotalTicket,
+                                AvailableTicket = x.AvailableTicket,
                                 Price = x.Price,
                                 Location = x.Location,
 

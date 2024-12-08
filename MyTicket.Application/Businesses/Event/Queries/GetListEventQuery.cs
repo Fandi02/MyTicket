@@ -121,6 +121,7 @@ public class GetListEventQueryHandler : IRequestHandler<GetListEventQuery, IEnum
             StartDate = x.StartDate,
             EndDate = x.EndDate,
             TotalTicket = x.TotalTicket,
+            AvailableTicket = x.AvailableTicket,
             Price = x.Price,
             Location = x.Location,
 
