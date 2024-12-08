@@ -50,6 +50,7 @@ namespace MyTicket.Application.Businesses.Event.Commands
             updateData.StartDate = request.StartDate;
             updateData.EndDate = request.EndDate;
             updateData.TotalTicket = request.TotalTicket;
+            updateData.AvailableTicket = request.TotalTicket - _dbContext.OrderTickets.Where(x => x.EventId == updateData.EventId).Sum(x => x.Quantity);
             updateData.Price = request.Price;
             updateData.Location = request.Location;
 

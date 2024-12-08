@@ -45,6 +45,7 @@ namespace MyTicket.Application.Businesses.Event.Commands
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
                 TotalTicket = request.TotalTicket,
+                AvailableTicket = request.TotalTicket,
                 Price = request.Price,
                 Location = request.Location,
             };
