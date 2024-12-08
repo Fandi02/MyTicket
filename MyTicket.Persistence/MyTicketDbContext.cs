@@ -5,6 +5,7 @@ using MyTicket.Application.Constant;
 using Microsoft.AspNetCore.Http;
 using MyTicket.Domain.Entities.Transaction;
 using MyTicket.Domain.Entities.Auth;
+using MyTicket.Domain.Entities.Payment;
 
 namespace MyTicket.Persistence
 {
@@ -29,6 +30,7 @@ namespace MyTicket.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<OrderTicket> OrderTickets { get; set; }
+        public DbSet<PaymentHistory> PaymentHistories { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
