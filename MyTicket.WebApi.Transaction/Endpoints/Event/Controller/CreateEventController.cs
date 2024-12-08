@@ -54,28 +54,6 @@ public class CreateEventController : BaseEndpointWithoutResponse<CreateEventRequ
             Location = request.Location
         });
 
-        var getRoleUser = await _mediator.Send(new GetRoleUser());
-
-        // if (getRoleUser != null && getRoleUser.Any())
-        // {
-        //     foreach (var item in getRoleUser)
-        //     {
-        //         var sendEmail = new
-        //         {
-        //             Email = item.Email,
-        //             FullName = item.FullName,
-        //             EventName = request.Name,
-        //             Description = request.Description,
-        //             StartDate = request.StartDate,
-        //             EndDate = request.EndDate,
-        //             Location = request.Location
-        //         };
-
-        //         var producer = new MessageProducer();
-        //         producer.SendingMessage("create-event", sendEmail);
-        //     }
-        // }
-
         return Ok();
     }
 }
