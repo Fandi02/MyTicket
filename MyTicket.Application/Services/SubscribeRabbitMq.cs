@@ -34,7 +34,7 @@ public class ConsumerUser : BackgroundService
         using var channel = connection.CreateModel();
 
         var exchangeName = "MyExchange";
-        var queueName = "UserEvent";
+        var queueName = "UserTransaction";
         
         channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
         channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false);

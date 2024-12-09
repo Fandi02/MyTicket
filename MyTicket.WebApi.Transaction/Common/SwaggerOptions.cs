@@ -4,7 +4,7 @@ public class SwaggerOptions
 {
     public SwaggerOptions()
     {
-        Title = "API Management Bank Soal";
+        Title = "API MyTicket Transaction";
         Version = "v1";
         SpecUrl = "/swagger/v1/swagger.json";
         RoutePrefix = "docs";
