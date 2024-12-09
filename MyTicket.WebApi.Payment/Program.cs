@@ -62,6 +62,9 @@ builder.Services.AddSwaggerGen2();
 builder.Services.Configure<UserModel>(builder.Configuration.GetSection("RabbitMq"));
 builder.Services.AddHostedService<ConsumerUser>();
 
+builder.Services.Configure<TransactionModel>(builder.Configuration.GetSection("RabbitMq"));
+builder.Services.AddHostedService<ConsumerTransaction>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
