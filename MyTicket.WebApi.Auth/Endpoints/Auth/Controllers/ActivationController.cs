@@ -16,8 +16,8 @@ public class ActivationController : BaseEndpointWithoutResponse<Guid>
         _mediator = mediator;
     }
 
-    [HttpGet("activation")]
     [AllowAnonymous]
+    [HttpGet("activation")]
     [SwaggerOperation(
         Summary = "Activation",
         Description = "",

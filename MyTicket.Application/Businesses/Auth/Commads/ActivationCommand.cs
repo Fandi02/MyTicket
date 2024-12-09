@@ -16,15 +16,9 @@ namespace MyTicket.Application.Businesses.Auth.Commands
     public class ActivationCommandHandler : IRequestHandler<ActivationCommand, string>
     {
         private readonly IMyTicketDbContext _dbContext;
-        private readonly IContext _context;
-        private readonly IConfiguration _configuration;
-        private readonly IEmailSender _emailSender;
-        public ActivationCommandHandler(IMyTicketDbContext dbContext, IContext context, IConfiguration configuration, IEmailSender emailSender)
+        public ActivationCommandHandler(IMyTicketDbContext dbContext)
         {
             _dbContext = dbContext;
-            _context = context;
-            _configuration = configuration;
-            _emailSender = emailSender;
         }
 
         public async Task<string> Handle(ActivationCommand request, CancellationToken cancellationToken)
