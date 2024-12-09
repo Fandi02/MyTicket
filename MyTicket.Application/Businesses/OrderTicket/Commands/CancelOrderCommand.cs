@@ -1,7 +1,10 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MyTicket.Application.Constant;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Interfaces;
+using MyTicket.Application.Models;
+using MyTicket.Application.Services;
 
 namespace MyTicket.Application.Businesses.OrderTicket.Commands
 {
@@ -42,6 +45,31 @@ namespace MyTicket.Application.Businesses.OrderTicket.Commands
             _dbContext.OrderTickets.Remove(getOrderticket);
             _dbContext.Events.Update(getEvent);
             await _dbContext.SaveChangesAsync(cancellationToken);
+
+            var producerUser = new TransactionModel
+            {
+                EventType = EventTypeRabbitMq.CancelOrder,
+                
+                EventId = getEvent.EventId,
+                Name = getEvent.Name,
+                Description = getEvent.Description,
+                StartDate = getEvent.StartDate,
+                EndDate = getEvent.EndDate,
+                TotalTicket = getEvent.TotalTicket,
+                AvailableTicket = getEvent.AvailableTicket,
+                Price = getEvent.Price,
+                Location = getEvent.Location,
+
+                OrderTicketId = getOrderticket.OrderTicketId,
+                UserId = getOrderticket.UserId,
+                TicketNumber = getOrderticket.TicketNumber,
+                Quantity = getOrderticket.Quantity,
+                Date = getOrderticket.Date,
+                IsPaid = getOrderticket.IsPaid
+            };
+
+            var producer = new MessageProducer();
+            producer.SendingMessage("cancel_order", producerUser);
 
             return true;
         }

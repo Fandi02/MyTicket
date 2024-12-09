@@ -1,7 +1,11 @@
+using System.Transactions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MyTicket.Application.Constant;
 using MyTicket.Application.Exceptions;
 using MyTicket.Application.Interfaces;
+using MyTicket.Application.Models;
+using MyTicket.Application.Services;
 
 namespace MyTicket.Application.Businesses.OrderTicket.Commands
 {
@@ -57,6 +61,31 @@ namespace MyTicket.Application.Businesses.OrderTicket.Commands
             await _dbContext.OrderTickets.AddAsync(saveOrder);
             _dbContext.Events.Update(getEvent);
             await _dbContext.SaveChangesAsync(cancellationToken);
+
+            var producerUser = new TransactionModel
+            {
+                EventType = EventTypeRabbitMq.OrderCreated,
+
+                EventId = getEvent.EventId,
+                Name = getEvent.Name,
+                Description = getEvent.Description,
+                StartDate = getEvent.StartDate,
+                EndDate = getEvent.EndDate,
+                TotalTicket = getEvent.TotalTicket,
+                AvailableTicket = getEvent.AvailableTicket,
+                Price = getEvent.Price,
+                Location = getEvent.Location,
+
+                OrderTicketId = saveOrder.OrderTicketId,
+                UserId = saveOrder.UserId,
+                TicketNumber = saveOrder.TicketNumber,
+                Quantity = saveOrder.Quantity,
+                Date = saveOrder.Date,
+                IsPaid = saveOrder.IsPaid
+            };
+
+            var producer = new MessageProducer();
+            producer.SendingMessage("order_created", producerUser);
 
             return true;
         }
