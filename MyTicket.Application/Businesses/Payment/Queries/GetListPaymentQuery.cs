@@ -158,6 +158,7 @@ public class GetListPaymentQueryHandler : IRequestHandler<GetListPaymentQuery, I
             TicketNumber = x.OrderTicket.TicketNumber,
             PricePayment = x.PricePayment,
             Status = x.Status,
+            LinkPayment = request.Role == UserRoleEnum.User.ToString() ? x.RedirectUrl : null,
 
             CreatedBy = x.CreatedBy,
             CreatedByName = x.CreatedByName,

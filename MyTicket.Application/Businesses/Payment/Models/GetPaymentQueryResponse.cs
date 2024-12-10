@@ -16,4 +16,5 @@ public class GetPaymentQueryResponse : BaseResponse
     public string TicketNumber { get; set; }
     public decimal PricePayment { get; set; }
     public PaymentStatus Status { get; set; }
+    public string LinkPayment { get; set; }
 }
