@@ -25,14 +25,14 @@ public class DeleteEventController : BaseEndpointWithoutResponse<DeleteEventRequ
         Description = "",
         Tags = new[] { "Event" })
     ]
-     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public override async Task<ActionResult> HandleAsync([FromRoute] DeleteEventRequest request, CancellationToken cancellationToken = default)
     {
         var role = User.Claims.FirstOrDefault(x => x.Type == ApplicationClaimConstant.Role)?.Value;
 
         if (role != UserRoleEnum.Admin.ToString())
-            throw new BadRequestException("Only admin can create event");
+            throw new ForbiddenException("Only admin can create event");
                 
         var mediator = _mediator;
         if (mediator is null)

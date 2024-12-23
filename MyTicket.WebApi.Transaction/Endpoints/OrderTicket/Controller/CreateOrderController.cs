@@ -37,7 +37,7 @@ public class CreateOrderController : BaseEndpointWithoutResponse<CreateOrderTick
             throw new BadRequestException("User not found");
 
         if (role != UserRoleEnum.User.ToString())
-            throw new BadRequestException("Only user can create order ticket");
+            throw new ForbiddenException("Only user can create order ticket");
 
         var mediator = _mediator;
         if (mediator is null)

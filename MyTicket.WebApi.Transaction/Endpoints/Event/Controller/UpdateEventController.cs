@@ -33,7 +33,7 @@ public class UpdateEventController : BaseEndpointWithoutResponse<UpdateEventRequ
         var role = User.Claims.FirstOrDefault(x => x.Type == ApplicationClaimConstant.Role)?.Value;
 
         if (role != UserRoleEnum.Admin.ToString())
-            throw new BadRequestException("Only admin can create event");
+            throw new ForbiddenException("Only admin can create event");
                 
         if (!Guid.TryParse((string)HttpContext.Request.RouteValues["EventId"]!, out Guid eventId))
             throw new BadRequestException("Invalid EventId.");
