@@ -39,7 +39,7 @@ public class SubmitPaymentMidtransController : BaseEndpoint<SubmitPaymentMidtran
             throw new BadRequestException("Request is null");
 
         if (role != UserRoleEnum.User.ToString())
-            throw new BadRequestException("Only user can create payment");
+            throw new ForbiddenException("Only user can create payment");
 
         var responsePaymentHistory = await _mediator.Send( new CreatePaymentHistoryCommand 
         { 
